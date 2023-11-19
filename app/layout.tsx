@@ -22,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={fontSans.className}>
+      <body className={fontSans.variable}>
         <ThemeProvider attribute="class" defaultTheme="system">
           {children}
         </ThemeProvider>
