@@ -13,6 +13,7 @@ import { Terminal } from "lucide-react";
 import { db } from "@/app/db/db";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { isString } from "@/lib/isString";
+import { FirestoreDataConverter, WithFieldValue, DocumentData, QueryDocumentSnapshot, SnapshotOptions, DocumentReference } from "firebase/firestore";
 let Errormasseg = false;
 
 function Card({ type }: { type: string }) {
@@ -53,16 +54,16 @@ function Card({ type }: { type: string }) {
         // ...
       });
   };
-
+  type Post = {
+    name: string,
+    id: string,
+    ref: DocumentReference<DocumentData>,
+    title: string,
+  };
   const SetNweUserInApp = async () => {
     const [user, loading, error] = useAuthState(auth);
-    if (user?.uid &&  typeof user.email === 'string') {
-      const ChickUser = await setDoc(doc(db, "Users", user?.uid), {
-        name: "User Name",
-        email: user?.email,
-      });
-  
-    }
+   
+
     location.href = "/Account";
   };
 
@@ -175,13 +176,6 @@ function Card({ type }: { type: string }) {
 }
 
 export default Card;
-function setDoc(
-  arg0: any,
-  arg1: { name: string; state: string; country: string }
-) {
-  throw new Error("Function not implemented.");
-}
 
-function doc(db: any, arg1: string, arg2: string): any {
-  throw new Error("Function not implemented.");
-}
+
+
