@@ -10,6 +10,9 @@ import { GithubAuthProvider } from "firebase/auth";
 import { Login, creatAuth } from "@/auth/Sign";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
+import { db } from "@/app/db/db";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { isString } from "@/lib/isString";
 let Errormasseg = false;
 
 function Card({ type }: { type: string }) {
@@ -21,7 +24,11 @@ function Card({ type }: { type: string }) {
   );
   const Google_auth = async () => {
     const provider = await new GoogleAuthProvider();
-    return signInWithPopup(auth, provider);
+    return signInWithPopup(auth, provider).then((reslit) => {
+      if (reslit) {
+        location.href = "/Account";
+      }
+    });
   };
   const GithubAuth = () => {
     const provider = new GithubAuthProvider();
@@ -29,7 +36,7 @@ function Card({ type }: { type: string }) {
       .then((result) => {
         // This gives you a GitHub Access Token. You can use it to access the GitHub API.
         const credential = GithubAuthProvider.credentialFromResult(result);
-
+        location.href = "/Account";
         // The signed-in user info.
         const user = result.user;
         // IdP data available using getAdditionalUserInfo(result)
@@ -45,6 +52,18 @@ function Card({ type }: { type: string }) {
         const credential = GithubAuthProvider.credentialFromError(error);
         // ...
       });
+  };
+
+  const SetNweUserInApp = async () => {
+    const [user, loading, error] = useAuthState(auth);
+    if (user?.uid &&  typeof user.email === 'string') {
+      const ChickUser = await setDoc(doc(db, "Users", user?.uid), {
+        name: "User Name",
+        email: user?.email,
+      });
+  
+    }
+    location.href = "/Account";
   };
 
   return (
@@ -88,7 +107,8 @@ function Card({ type }: { type: string }) {
               Login(userEmail, userPassword).then((e: any) => {
                 if (e === true) {
                   setloginword("Login");
-                  location.href = "/";
+
+                  location.href = "/Account";
                 } else {
                   setloginword("Login");
                   if (e.errorMessage) {
@@ -98,11 +118,11 @@ function Card({ type }: { type: string }) {
                 }
               });
             }
+            //  if  Sign up
             if (type == "Sign up") {
               creatAuth(userEmail, userPassword).then((e: any) => {
                 if (e === true) {
                   setloginword("Sign up");
-                  location.href = "/";
                 } else {
                   setloginword("Sign up");
                   if (e.errorMessage) {
@@ -155,3 +175,13 @@ function Card({ type }: { type: string }) {
 }
 
 export default Card;
+function setDoc(
+  arg0: any,
+  arg1: { name: string; state: string; country: string }
+) {
+  throw new Error("Function not implemented.");
+}
+
+function doc(db: any, arg1: string, arg2: string): any {
+  throw new Error("Function not implemented.");
+}

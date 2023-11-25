@@ -1,17 +1,11 @@
 "use client";
-import Image from "next/image";
+
 import Manuaccont from "./Manuaccont";
 import { useState } from "react";
-import { GetUserData } from "@/auth/Get_user_data";
-
-
-
-
+import UserImage from "../Ui_app/UserImage";
 function Avbtar() {
- let user =  GetUserData()
- console.log(user)
   const [Popup, setPopup] = useState(false);
-  const PopupCalick = () => {
+   const PopupCalick = () => {
     if (Popup) setPopup(false);
     else setPopup(true);
   };
@@ -25,15 +19,10 @@ function Avbtar() {
             PopupCalick();
           }}
         >
-          <Image
-            src={ "https://upcdn.io/kW15bmq/raw/-521134662.png"}
-            alt="avtar"
-            width={"30"}
-            height={"30"}
-          />
+          <UserImage width={30} height={30} />
         </div>
         {/* Manu accont */}
-        {Popup ? <Manuaccont /> : ""}
+        {Popup ? <Manuaccont closeMenu={PopupCalick}/> : ""}
       </div>
     </>
   );
