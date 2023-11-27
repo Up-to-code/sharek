@@ -3,8 +3,10 @@ import { auth } from "@/app/db/db";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Image from "next/image";
 import { Skeleton } from "../ui/skeleton";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { User } from "lucide-react";
+import { SetNewUserDoc } from "@/lib/SetNewUserDoc";
+import { user_Icone } from "@/public/Images/Images";
 interface TypeProps {
   width: number;
   height: number;
@@ -12,6 +14,20 @@ interface TypeProps {
 
 function UserImage({ width, height }: TypeProps) {
   const [user, loading, error] = useAuthState(auth);
+  useEffect(() => {
+    async function f() {
+      if (user) {
+        SetNewUserDoc({
+          Userid: user?.uid ? user.uid : "",
+          Name: user.displayName ? user.displayName : "Name",
+          email: user.email ? user.email : "User email",
+          URLimage: user.photoURL ? user.photoURL : "",
+        });
+      }
+    }
+    f();
+  }, [user]);
+
   if (loading) {
     return <Skeleton className={`w-[${width}px] h-[${height}px]`} />;
   }
@@ -26,7 +42,7 @@ function UserImage({ width, height }: TypeProps) {
     return (
       <Suspense>
         <Image
-          src={loading ? "" : user?.photoURL ? user.photoURL : ""}
+          src={loading ? "" : user?.photoURL ? user.photoURL : user_Icone}
           alt="avtar"
           width={width}
           height={height}

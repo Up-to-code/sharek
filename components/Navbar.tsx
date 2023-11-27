@@ -9,11 +9,11 @@ function Navbar() {
         <div className="container w-full h-full flex justify-between  items-center px-5  ">
           <h1 className="text-2xl  font-bold "><Link href={"/"}>Sharek</Link></h1>
           <nav className="flex gap-5">
+            {/* <Link href={"/"}>Home</Link>
             <Link href={"/"}>Home</Link>
             <Link href={"/"}>Home</Link>
             <Link href={"/"}>Home</Link>
-            <Link href={"/"}>Home</Link>
-            <Link href={"/"}>Home</Link>
+            <Link href={"/"}>Home</Link> */}
             <Avbtar />
           </nav>
         </div>

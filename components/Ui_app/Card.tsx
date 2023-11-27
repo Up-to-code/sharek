@@ -10,10 +10,10 @@ import { GithubAuthProvider } from "firebase/auth";
 import { Login, creatAuth } from "@/auth/Sign";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
-import { db } from "@/app/db/db";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { isString } from "@/lib/isString";
-import { FirestoreDataConverter, WithFieldValue, DocumentData, QueryDocumentSnapshot, SnapshotOptions, DocumentReference } from "firebase/firestore";
+import {
+  DocumentData,
+  DocumentReference,
+} from "firebase/firestore";
 let Errormasseg = false;
 
 function Card({ type }: { type: string }) {
@@ -25,46 +25,33 @@ function Card({ type }: { type: string }) {
   );
   const Google_auth = async () => {
     const provider = await new GoogleAuthProvider();
-    return signInWithPopup(auth, provider).then((reslit) => {
+    return signInWithPopup(auth, provider).then(async (reslit) => {
       if (reslit) {
-        location.href = "/Account";
+        return true;
       }
     });
   };
   const GithubAuth = () => {
     const provider = new GithubAuthProvider();
     signInWithPopup(auth, provider)
-      .then((result) => {
-        // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+      .then(async (result) => {
         const credential = GithubAuthProvider.credentialFromResult(result);
+
         location.href = "/Account";
-        // The signed-in user info.
-        const user = result.user;
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
+        // const user = result.user;
       })
       .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
+        // const email = error.customData.email;
         const credential = GithubAuthProvider.credentialFromError(error);
-        // ...
       });
   };
   type Post = {
-    name: string,
-    id: string,
-    ref: DocumentReference<DocumentData>,
-    title: string,
-  };
-  const SetNweUserInApp = async () => {
-    const [user, loading, error] = useAuthState(auth);
-   
-
-    location.href = "/Account";
+    name: string;
+    id: string;
+    ref: DocumentReference<DocumentData>;
+    title: string;
   };
 
   return (
@@ -121,9 +108,10 @@ function Card({ type }: { type: string }) {
             }
             //  if  Sign up
             if (type == "Sign up") {
-              creatAuth(userEmail, userPassword).then((e: any) => {
+              creatAuth(userEmail, userPassword).then(async (e: any) => {
                 if (e === true) {
                   setloginword("Sign up");
+                  location.href = "/Account";
                 } else {
                   setloginword("Sign up");
                   if (e.errorMessage) {
@@ -156,15 +144,25 @@ function Card({ type }: { type: string }) {
       <div className="flex  gap-5 justify-between mt-8">
         <Button
           className="flex gap-2 w-36 justify-evenly  "
-          onClick={() => GithubAuth()}
+          onClick={() => {
+            GithubAuth();
+          }}
         >
           <FaGithub />
           Github
         </Button>
         <Button
           className="flex gap-2 w-36 justify-evenly  "
-          onClick={() => {
-            Google_auth();
+          onClick={async () => {
+            let app = await Google_auth()
+              .then((r) => {
+                if (r) {
+                  location.href = "/Account";
+                }
+              })
+              .catch((error) => {
+                console.log(error);
+              });
           }}
         >
           <FaGoogle />
@@ -176,6 +174,3 @@ function Card({ type }: { type: string }) {
 }
 
 export default Card;
-
-
-

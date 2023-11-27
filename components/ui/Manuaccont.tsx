@@ -1,5 +1,5 @@
 "use client";
-import { Settings, UserCircle2 } from "lucide-react";
+import { Plus, Settings, UserCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Logout from "../Ui_app/User_components/Logout";
@@ -42,6 +42,16 @@ function Manuaccont({ closeMenu }: { closeMenu: () => void }) {
           <UserCircle2 className="w-4  " />
           <Link href={"/Account"} className="text-base font-semibold pb-1">
             account
+          </Link>
+        </motion.li>
+        <motion.li
+          variants={item}
+          className="p-1 flex  items-center justify-center  cursor-pointer t "
+          onClick={closeMenu}
+        >
+          <Plus className="w-4  " />
+          <Link href={"/add"} className="text-base font-semibold pb-1 max-[2px]:">
+             add Item
           </Link>
         </motion.li>
 
