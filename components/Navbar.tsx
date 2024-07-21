@@ -7,7 +7,7 @@ function Navbar() {
     <>
       <header className="flex justify-center items-center border-b-2 h-14 bg-background">
         <div className="container w-full h-full flex justify-between  items-center px-5  ">
-          <h1 className="text-2xl  font-bold "><Link href={"/"}>Sharek</Link></h1>
+          <h1 className="text-2xl  font-bold text-zinc-900"><Link href={"/"}>Sharek</Link></h1>
           <nav className="flex gap-5">
             {/* <Link href={"/"}>Home</Link>
             <Link href={"/"}>Home</Link>

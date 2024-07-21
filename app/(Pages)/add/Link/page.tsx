@@ -1,5 +1,5 @@
 "use client";
-import {auth, db } from "@/app/db/db";
+import { auth, db } from "@/app/db/db";
 import MaxWidth from "@/components/base/MaxWidth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,88 +8,68 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { Suspense, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
-const AddNweItem = async (uid: string, Name: string, Link: string) => {
+const AddNewItem = async (uid: string, Name: string, Link: string) => {
   const docRef = doc(db, "Users", uid);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data().Links);
-    const Data = docSnap.data().Links;
-    if (Data) {
-      console.log(Data);
-      const UserRef = doc(db, "Users", uid);
-      const send = await setDoc(
-        UserRef,
-        {
-          Links: [
-            {
-              name: Name,
-              Link: Link,
-            },
-            ...Data,
-          ],
-        },
-        { merge: true }
-      );
-    }
-  } else {
+    const data = docSnap.data()?.Links || [];
+    const updatedData = [
+      ...data,
+      { name: Name, Link: Link },
+    ];
+    await setDoc(docRef, { Links: updatedData }, { merge: true });
   }
 };
+
 function Page() {
-  const [Name_Input, setName_Input] = useState("");
-  const [Link_Input, setLink_Input] = useState("");
-  const Hadel = async (valu: string, type: string) => {
-    const [user, laoding, error] = useAuthState(auth);
-    if (type == "Name") {
-      setName_Input(valu);
+  const [nameInput, setNameInput] = useState("");
+  const [linkInput, setLinkInput] = useState("");
+
+  const handleInputChange = (value: string, type: string) => {
+    if (type === "Name") {
+      setNameInput(value);
+    } else if (type === "Link") {
+      setLinkInput(value);
     }
-    if (type == "Link") {
-      setLink_Input(valu);
-    }
-    if (type == "Send") {
-      console.log(Name_Input);
-      console.log(Link_Input);
-      if (user?.displayName) {
-        await AddNweItem(user?.uid, Name_Input, Link_Input);
-      } else {
-        alert("you cant add ");
-      }
+  };
+
+  const handleSendClick = async () => {
+    const [user] = useAuthState(auth);
+    if (user?.displayName) {
+      await AddNewItem(user.uid, nameInput, linkInput);
+    } else {
+      alert("You can't add a link.");
     }
   };
 
   return (
     <div className="mt-11 ">
       <MaxWidth>
-        <h1 className="text-3xl  font-bold my-5  ">Add Link</h1>
-        <Suspense fallback={<Skeleton className={`w-[100%] h-[300px]`} />}>
-        <div className="w-full mx-8 shadow-md  rounded min-h-[300px] flex flex-col  gap-3 px-10 justify-center">
-          <div className="flex flex-col  gap-3">
-            <label className="text-lg ">Link Name</label>
-            <Input
-              placeholder="Name"
-              onChange={(e) => {
-                Hadel(e.target.value, "Name");
-              }}
-            ></Input>
-          </div>
+        <h1 className="text-3xl font-bold my-5 ">Add Link</h1>
+        <Suspense fallback={<Skeleton className="w-full h-[300px]" />}>
+          <div className="w-full mx-8 shadow-md rounded min-h-[300px] flex flex-col gap-3 px-10 justify-center">
+            <div className="flex flex-col gap-3">
+              <label className="text-lg">Link Name</label>
+              <Input
+                placeholder="Name"
+                onChange={(e) => handleInputChange(e.target.value, "Name")}
+              ></Input>
+            </div>
 
-          <div className="flex flex-col  gap-3">
-            <label className="text-lg ">Link</label>
-            <Input
-              placeholder="Link"
-              onChange={(e) => {
-                Hadel(e.target.value, "Link");
-              }}
-            ></Input>
+            <div className="flex flex-col gap-3">
+              <label className="text-lg">Link</label>
+              <Input
+                placeholder="Link"
+                onChange={(e) => handleInputChange(e.target.value, "Link")}
+              ></Input>
+            </div>
+            <Button
+              className="mt-5"
+              onClick={handleSendClick}
+            >
+              Send
+            </Button>
           </div>
-          <Button
-            className="mt-5"
-            onClick={() => {
-              Hadel("", "Send");
-            }}
-          >
-            Send
-          </Button>
-        </div>
         </Suspense>
       </MaxWidth>
     </div>
@@ -97,3 +77,4 @@ function Page() {
 }
 
 export default Page;
+

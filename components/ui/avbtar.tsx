@@ -12,7 +12,7 @@ function Avbtar() {
 
   return (
     <>
-      <div className="relative ">
+      <div className="relative text-zinc-900">
         <div
           className="rounded-full overflow-hidden "
           onClick={() => {

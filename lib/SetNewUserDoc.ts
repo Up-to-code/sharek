@@ -17,16 +17,12 @@ export async function SetNewUserDoc({
   const docRef = doc(db, "Users", Userid);
   const docSnap = await getDoc(docRef);
 
-  if (docSnap.exists()) {
-  } else {
-    await setDoc(
-      doc(db, "Users", Userid),
-      {
-        name: Name,
-        email: email,
-        URLimage: URLimage,
-      },
-      { merge: true }
-    );
+  if (!docSnap.exists()) {
+    await setDoc(docRef, {
+      name: Name,
+      email: email,
+      URLimage: URLimage,
+    }, { merge: true });
   }
 }
+

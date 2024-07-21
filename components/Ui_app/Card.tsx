@@ -55,7 +55,7 @@ function Card({ type }: { type: string }) {
   };
 
   return (
-    <div className="min-w-[300px] min-h-max  border py-5 px-10">
+    <div className="min-w-[300px] min-h-max  border py-5 px-10 text-zinc-900">
       <h1 className="font-extrabold  my-7 ">{type}</h1>
       {Errormasseg ? (
         <Alert className="mb-5">
@@ -88,7 +88,7 @@ function Card({ type }: { type: string }) {
           </Link>
         </div>
         <Button
-          className="bg-zinc-900 "
+          className="bg-zinc-900  text-white"
           onClick={() => {
             setloginword("Laoding..");
             if (type == "Login") {

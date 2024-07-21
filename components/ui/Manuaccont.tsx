@@ -31,12 +31,12 @@ function Manuaccont({ closeMenu }: { closeMenu: () => void }) {
         initial="hidden"
         animate="visible"
         variants={list}
-        className="absolute top-12 right-10 rounded bg-background  px-5 py-2 border "
+        className="absolute top-12 right-10 rounded   px-5 py-2 border  bg-zinc-50"
         transition={{ delay: 0.1 }}
       >
         <motion.li
           variants={item}
-          className="p-1 flex gap-2 items-center justify-center  cursor-pointer t "
+          className="p-1 flex gap-2 items-center justify-center  cursor-pointer text-zinc-900"
           onClick={closeMenu}
         >
           <UserCircle2 className="w-4  " />
