@@ -24,6 +24,7 @@ const AddNewItem = async (uid: string, Name: string, Link: string) => {
 function Page() {
   const [nameInput, setNameInput] = useState("");
   const [linkInput, setLinkInput] = useState("");
+  const [user, loading, error] = useAuthState(auth); // Moved hook here
 
   const handleInputChange = (value: string, type: string) => {
     if (type === "Name") {
@@ -34,7 +35,6 @@ function Page() {
   };
 
   const handleSendClick = async () => {
-    const [user] = useAuthState(auth);
     if (user?.displayName) {
       await AddNewItem(user.uid, nameInput, linkInput);
     } else {
@@ -77,4 +77,3 @@ function Page() {
 }
 
 export default Page;
-
