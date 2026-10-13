@@ -1,3 +1,44 @@
+# Sharek
+
+Sharek application source built with Next.js.
+
+[Source](https://github.com/Up-to-code/sharek) · [Issues](https://github.com/Up-to-code/sharek/issues) · [Project directory](https://github.com/qentrah/.github/blob/main/profile/PROJECTS.md)
+
+## Technology
+
+Next.js, React, TypeScript.
+
+## Get started
+
+```sh
+git clone https://github.com/Up-to-code/sharek.git
+cd sharek
+```
+
+Requires Node.js and npm.
+
+```sh
+npm ci
+npm run dev
+```
+
+## Available commands
+
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Development server |
+| `npm run start` | Start the configured application |
+| `npm run build` | Build the project |
+| `npm run lint` | Check lint rules |
+
+## Project structure
+
+- [`app`](./app)
+- [`components`](./components)
+
+<details>
+<summary>Existing setup notes and credits</summary>
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -34,3 +75,5 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+</details>
